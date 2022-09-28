@@ -9,7 +9,7 @@
 @endpush
 
 @section('title')
-Dashboard Page - Admin Panel
+Role Page - Admin Panel
 @endsection
 
 
@@ -38,64 +38,46 @@ Dashboard Page - Admin Panel
     </div>
     <!-- page title area end -->
     <div class="main-content-inner">
-        <!-- data table start -->
-        <div class="row">
-            <div class="col-12 mt-5">
+        <!-- Role table start -->
+        <div class="mt-5">
+            <div class="card">
 
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">DataTable with minimal features & hover style</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>SL</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th>SL</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($roles as $key=>$role )
-                                <tr>
-                                    <td>{{++ $key}}</td>
-                                    <td> {{$role->name}}</td>
-                                    <td>-</td>
-
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
+                <div class="card-header">
+                    <h3 class="card-title">Roles List</h3>
                 </div>
+                @include('backend.layouts.partials.massage')
 
-
-
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($roles as $key=>$role )
+                            <tr>
+                                <td>{{++ $key}}</td>
+                                <td> {{$role->name}}</td>
+                                <td>-</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
         </div>
-        <!-- data table end -->
+        <!-- Role table end -->
     </div>
 </div>
 
 @endsection
 
 @push('script')
-
-
-
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('backend')}}/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="{{asset('backend')}}/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -109,8 +91,6 @@ Dashboard Page - Admin Panel
 <script src="{{asset('backend')}}/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="{{asset('backend')}}/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="{{asset('backend')}}/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
-
 <script>
     $(function() {
         $('#example2').DataTable({

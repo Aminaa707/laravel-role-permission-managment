@@ -18,7 +18,9 @@ Route::get('/dashboard', function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.view');
-    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class, ['names' => 'admin.roles']);
 });
-
 require __DIR__ . '/auth.php';
+
+
+// php artisan optimize
