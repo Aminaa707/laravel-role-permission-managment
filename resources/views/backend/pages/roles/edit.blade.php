@@ -59,7 +59,7 @@ Role Edit - Admin Panel
                         <h4 class="mb-3">All permissions:</h4>
 
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="" class="form-check-input" id="allCheckPermission" {{App\Models\User::roleHasPermissions($role, $permissions) ? "checked" : "" }}>
+                            <input type="checkbox" name="" class="form-check-input" id="allCheckPermission" {{App\Models\User::roleHasPermissions($role, $permissions)? "checked" : "" }}>
                             <label class="form-check-label" for="allCheckPermission">All</label>
                         </div>
 
@@ -115,5 +115,7 @@ Role Edit - Admin Panel
 @endsection
 
 @push('script')
+
 @include('backend.pages.roles.partials.script')
+
 @endpush

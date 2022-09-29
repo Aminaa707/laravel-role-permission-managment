@@ -83,7 +83,12 @@ class RoleController extends Controller
         $role = Role::findById($id);
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroup();
-        return view('backend.pages.roles.edit', compact("role", 'permissions', 'permission_groups'));
+
+        $countPermissions =  Permission::count();
+        $countPermissionGroups = User::getpermissionGroup()->count();
+
+
+        return view('backend.pages.roles.edit', compact("role", 'permissions', 'permission_groups', 'countPermissions', 'countPermissionGroups'));
     }
 
     /**
