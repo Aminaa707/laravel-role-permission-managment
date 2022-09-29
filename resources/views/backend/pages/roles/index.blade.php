@@ -61,8 +61,12 @@ Role Page - Admin Panel
                             @foreach ($roles as $key=>$role )
                             <tr>
                                 <td>{{++ $key}}</td>
-                                <td> {{$role->name}}</td>
-                                <td>-</td>
+                                <td class="text-capitalize"> {{$role->name}}</td>
+                                <td>
+                                    <a class="btn btn-info" href="{{route('admin.roles.edit', $role->id)}}">Edit</a>
+                                    <a class="btn btn-danger" href="">Delete</a>
+
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
