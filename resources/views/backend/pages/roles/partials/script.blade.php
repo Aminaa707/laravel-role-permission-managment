@@ -1,8 +1,6 @@
 <!-- script for mark all checkbox at once -->
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
-<script>
+<script type="text/javascript">
     $("#allCheckPermission").click(function() {
         if ($(this).is(':checked')) {
             //Check all the checkbox
@@ -25,6 +23,7 @@
 
             classCheckBox.prop('checked', false);
         }
+        implementAllChecked()
     }
 
     function checkSinglePermission(groupClassName, groupId, countTotalPermission) {
@@ -39,5 +38,24 @@
             groupIDCheckbox.prop('checked', false);
 
         }
+        implementAllChecked()
+    }
+
+
+
+    function implementAllChecked() {
+
+        const countPermissions = document.getElementById('permissionsId').textContent;
+
+        const countPermissionGroups = document.getElementById('permission_groupsId').textContent;
+        // console.log(countPermissions, countPermissionGroups);
+        if ($('input[type="checkbox"]:checked').length >= (countPermissions + countPermissionGroups)) {
+            $("#allCheckPermission").prop('checked', true);
+
+        } else {
+            $("#allCheckPermission").prop('checked', false);
+
+        }
+
     }
 </script>

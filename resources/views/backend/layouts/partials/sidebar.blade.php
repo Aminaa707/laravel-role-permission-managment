@@ -9,23 +9,22 @@
         <div class="menu-inner">
             <nav>
                 <ul class="metismenu" id="menu">
-                    <li class="active">
+                    <li class="{{Route::is('dashboard.view')? 'active' : ''}}">
                         <a href="{{route('dashboard.view')}}" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
                         <ul class="collapse">
-                            <li class="active"><a href="#">--</a></li>
-                            <li><a href="#"></a>--</li>
-                            <li><a href="#"></a>--</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left"></i><span> Roles
-                            </span></a>
-                        <ul class="collapse">
-                            <li><a href="#">--</a></li>
-                            <li><a href="#">--</a></li>
-                        </ul>
-                    </li>
+                            <li class="{{Route::is('dashboard.view')? 'active' : ''}}"><a href="{{route('dashboard.view')}}">Dashboard</a></li>
 
+                        </ul>
+                    </li>
+                    <li class="{{Route::is('admin.roles.index') || Route::is('admin.roles.create') || Route::is('admin.roles.edit')|| Route::is('admin.roles.show') ? 'active' : ''}}">
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="ti-layout-sidebar-left "></i><span> Roles & Permissions
+                            </span></a>
+                        <ul class="collapse {{Route::is('admin.roles.create') || Route::is('admin.roles.index') ||Route::is('admin.roles.
+                            edit') ||Route::is('admin.roles.show') ? 'in' : ''}}">
+                            <li class="{{Route::is('admin.roles.index')|| Route::is('admin.roles.edit')? 'active' : ''}}"><a href="{{route('admin.roles.index')}}">All Roles</a></li>
+                            <li class="{{Route::is('admin.roles.create')? 'active' : ''}}"><a href="{{route('admin.roles.create')}}">Create Role</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>

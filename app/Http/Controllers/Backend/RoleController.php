@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+
 class RoleController extends Controller
 {
     /**
@@ -30,6 +31,7 @@ class RoleController extends Controller
     {
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroup();
+        Session()->flash('success', 'Role hase been created !!');
         return view('backend.pages.roles.create', compact('permissions', 'permission_groups'));
     }
 
@@ -102,7 +104,7 @@ class RoleController extends Controller
     {
         // Validate Data
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:roles,name,' . $id,
         ], [
             'name.required' => "Please give a role name"
         ]);
@@ -110,11 +112,14 @@ class RoleController extends Controller
 
         // Process Data
         $role = Role::findById($id);
+        $role->name = $request->name;
         $permissions = $request->input('permissions');
 
         if (!empty($permissions)) {
             $role->syncPermissions($permissions);
         }
+        $role->save();
+        Session()->flash('success', 'Role hase been updated !!');
 
         return back();
     }
@@ -127,6 +132,11 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // DB::table('roles')->where('id', $id)->delete();
+
+        Role::destroy($id); // with destroy() method.
+        Session()->flash('success', 'Role hase been deleted !!');
+
+        return redirect()->back();
     }
 }

@@ -49,23 +49,40 @@ Role Page - Admin Panel
 
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="example2" class="table table-bordered table-hover align-middle">
                         <thead>
                             <tr>
                                 <th>SL</th>
                                 <th>Name</th>
+                                <th width="60%">Permissions</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($roles as $key=>$role )
+
+
                             <tr>
                                 <td>{{++ $key}}</td>
                                 <td class="text-capitalize"> {{$role->name}}</td>
                                 <td>
+                                    @foreach ($role->permissions as $permisson)
+                                    <span class="badge badge-info me-2">
+                                        {{$permisson -> name}}
+                                    </span>
+                                    @endforeach
+                                </td>
+                                <td>
                                     <a class="btn btn-info" href="{{route('admin.roles.edit', $role->id)}}">Edit</a>
-                                    <a class="btn btn-danger" href="">Delete</a>
+                                    <a class="btn btn-danger" href="route('logout')" onclick="event.preventDefault(); document.getElementById('delete-form{{$role->id}}').submit();">
+                                        Delete
+                                    </a>
 
+                                    <form id='delete-form{{$role->id}}' method="POST" action="{{route('admin.roles.destroy', $role->id)}}" style="display:none;">
+                                        @method('DELETE')
+                                        @csrf
+
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

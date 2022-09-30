@@ -104,6 +104,8 @@ Role Edit - Admin Panel
                         @endforeach
 
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Update Role</button>
+                        <div hidden id="permissionsId">{{$countPermissions}}</div>
+                        <div hidden id="permission_groupsId">{{$countPermissionGroups}}</div>
                     </form>
                 </div>
             </div>
