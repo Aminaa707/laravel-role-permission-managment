@@ -9,7 +9,7 @@
 @endpush
 
 @section('title')
-Role Page - Admin Panel
+Admin Page - Admin Panel
 @endsection
 
 
@@ -43,7 +43,7 @@ Role Page - Admin Panel
             <div class="card">
 
                 <div class="card-header">
-                    <h3 class="card-title">Roles List</h3>
+                    <h3 class="card-title">Admins List</h3>
                 </div>
                 @include('backend.layouts.partials.massage')
 
@@ -54,43 +54,42 @@ Role Page - Admin Panel
                             <tr>
                                 <th>SL</th>
                                 <th>Name</th>
-                                <th width="60%">Permissions</th>
+                                <th>Email</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($roles as $key=>$role )
-
-
+                            @foreach ($admins as $key=> $admin )
                             <tr>
                                 <td>{{++ $key}}</td>
-                                <td class="text-capitalize"> {{$role->name}}</td>
+                                <td class="text-capitalize"> {{ $admin->name}}</td>
+                                <td class="text-capitalize"> {{ $admin->email}}</td>
                                 <td>
-                                    @foreach ($role->permissions as $permisson)
-                                    <span class="badge badge-info me-2">
-                                        {{$permisson -> name}}
+                                    @foreach ( $admin->roles as $role)
+                                    <span class="badge badge-info me-1">
+                                        {{$role -> name}}
                                     </span>
                                     @endforeach
                                 </td>
                                 <td>
-
-                                    @if (Auth::guard('admin')->user()->can('role.edit'))
-                                    <a class="btn btn-info" href="{{route('admin.roles.edit', $role->id)}}">Edit</a>
+                                    @if (Auth::guard('admin')->user()->can('admin.edit'))
+                                    <a class="btn btn-info" href="{{route('admin.admins.edit', $role->id)}}">Edit</a>
                                     @endif
-                                    @if (Auth::guard('admin')->user()->can('role.delete'))
-                                    <a class="btn btn-danger" href="route('logout')" onclick="event.preventDefault(); document.getElementById('delete-form{{$role->id}}').submit();">
+                                    @if (Auth::guard('admin')->user()->can('admin.delete'))
+                                    <a class="btn btn-danger" href="{{route('admin.admins.destroy',  $admin->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form{{ $admin->id}}').submit();">
                                         Delete
                                     </a>
 
-                                    <form id='delete-form{{$role->id}}' method="POST" action="{{route('admin.roles.destroy', $role->id)}}" style="display:none;">
+                                    <form id='delete-form{{ $admin->id}}' method="POST" action="{{route('admin.admins.destroy',  $admin->id)}}" style="display:none;">
                                         @method('DELETE')
                                         @csrf
 
                                     </form>
                                     @endif
 
-
                                 </td>
+
                             </tr>
                             @endforeach
                         </tbody>

@@ -20,6 +20,16 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/dashboard';
 
     /**
+     * The path to the "admin" route for your application.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const ADMIN_DASHBOARD = '/admin';
+
+
+    /**
      * Define your route model bindings, pattern filters, and other route configuration.
      *
      * @return void

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -16,8 +17,24 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public $user;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('admin')->user();
+            return $next($request);
+        });
+    }
+
+
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('role.view')) {
+            abort(403, 'Sorry !! You are Unauthorized to view this page');
+        }
         $roles = Role::all();
         return view('backend.pages.roles.index', compact('roles'));
     }
@@ -29,9 +46,9 @@ class RoleController extends Controller
      */
     public function create()
     {
+
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroup();
-        Session()->flash('success', 'Role hase been created !!');
         return view('backend.pages.roles.create', compact('permissions', 'permission_groups'));
     }
 
@@ -53,13 +70,13 @@ class RoleController extends Controller
 
 
         // Process Data
-        $role = Role::create(['name' =>  $request->name]);
+        $role = Role::create(['name' =>  $request->name, 'guard_name' => 'admin']);
         $permissions = $request->input('permissions');
 
         if (!empty($permissions)) {
             $role->syncPermissions($permissions);
         }
-
+        Session()->flash('success', 'Role hase been created !!');
         return back();
     }
 
@@ -82,7 +99,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::findById($id);
+        if (is_null($this->user) || !$this->user->can('role.edit')) {
+            abort(403, 'Sorry !! You are Unauthorized to view this page');
+        }
+        $role = Role::findById($id, 'admin');
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroup();
 
@@ -102,6 +122,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('role.edit')) {
+            abort(403, 'Sorry !! You are Unauthorized to view this page');
+        }
         // Validate Data
         $request->validate([
             'name' => 'required|max:255|unique:roles,name,' . $id,
@@ -111,7 +134,7 @@ class RoleController extends Controller
 
 
         // Process Data
-        $role = Role::findById($id);
+        $role = Role::findById($id, 'admin');
         $role->name = $request->name;
         $permissions = $request->input('permissions');
 
@@ -132,6 +155,9 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        if (is_null($this->user) || !$this->user->can('role.delete')) {
+            abort(403, 'Sorry !! You are Unauthorized to view this page');
+        }
         // DB::table('roles')->where('id', $id)->delete();
 
         Role::destroy($id); // with destroy() method.

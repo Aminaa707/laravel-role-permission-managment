@@ -9,7 +9,7 @@
 @endpush
 
 @section('title')
-Role Page - Admin Panel
+User Page - Admin Panel
 @endsection
 
 
@@ -54,42 +54,35 @@ Role Page - Admin Panel
                             <tr>
                                 <th>SL</th>
                                 <th>Name</th>
-                                <th width="60%">Permissions</th>
+                                <th>Email</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($roles as $key=>$role )
-
-
+                            @foreach ($users as $key=>$user )
                             <tr>
                                 <td>{{++ $key}}</td>
-                                <td class="text-capitalize"> {{$role->name}}</td>
+                                <td class="text-capitalize"> {{$user->name}}</td>
+                                <td class="text-capitalize"> {{$user->email}}</td>
                                 <td>
-                                    @foreach ($role->permissions as $permisson)
-                                    <span class="badge badge-info me-2">
-                                        {{$permisson -> name}}
+                                    @foreach ($user->roles as $role)
+                                    <span class="badge badge-info me-1">
+                                        {{$role -> name}}
                                     </span>
                                     @endforeach
                                 </td>
                                 <td>
-
-                                    @if (Auth::guard('admin')->user()->can('role.edit'))
-                                    <a class="btn btn-info" href="{{route('admin.roles.edit', $role->id)}}">Edit</a>
-                                    @endif
-                                    @if (Auth::guard('admin')->user()->can('role.delete'))
-                                    <a class="btn btn-danger" href="route('logout')" onclick="event.preventDefault(); document.getElementById('delete-form{{$role->id}}').submit();">
+                                    <a class="btn btn-info" href="{{route('admin.users.edit', $user->id)}}">Edit</a>
+                                    <a class="btn btn-danger" href="{{route('admin.users.destroy', $user->id)}}" onclick="event.preventDefault(); document.getElementById('delete-form{{$user->id}}').submit();">
                                         Delete
                                     </a>
 
-                                    <form id='delete-form{{$role->id}}' method="POST" action="{{route('admin.roles.destroy', $role->id)}}" style="display:none;">
+                                    <form id='delete-form{{$user->id}}' method="POST" action="{{route('admin.users.destroy', $user->id)}}" style="display:none;">
                                         @method('DELETE')
                                         @csrf
 
                                     </form>
-                                    @endif
-
-
                                 </td>
                             </tr>
                             @endforeach
